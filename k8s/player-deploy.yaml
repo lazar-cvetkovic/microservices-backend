@@ -1,0 +1,31 @@
+﻿apiVersion: apps/v1
+kind: Deployment
+metadata: { name: player-service, namespace: artemi }
+spec:
+  replicas: 1
+  selector: { matchLabels: { app: player-service } }
+  template:
+    metadata: { labels: { app: player-service } }
+    spec:
+      containers:
+      - name: player
+        image: player-service:local
+        imagePullPolicy: IfNotPresent
+        ports: [ { containerPort: 8081 } ]
+        env:
+        - name: DB_HOST
+          value: postgres
+        - name: DB_USER
+          valueFrom: { secretKeyRef: { name: postgres-secret, key: DB_USER } }
+        - name: DB_PASS
+          valueFrom: { secretKeyRef: { name: postgres-secret, key: DB_PASS } }
+---
+apiVersion: v1
+kind: Service
+metadata: { name: player-service, namespace: artemi }
+spec:
+  selector: { app: player-service }
+  ports:
+  - name: http
+    port: 8081
+    targetPort: 8081

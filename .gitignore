@@ -1,0 +1,3 @@
+﻿# Project exclude paths
+/node-service/target/
+/player-service/target/

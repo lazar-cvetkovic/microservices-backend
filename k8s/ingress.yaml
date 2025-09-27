@@ -1,0 +1,24 @@
+﻿apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: artemi-ingress
+  namespace: artemi
+spec:
+  ingressClassName: nginx
+  rules:
+    - http:
+        paths:
+          - path: /player
+            pathType: Prefix
+            backend:
+              service:
+                name: player-service
+                port:
+                  number: 8081
+          - path: /node
+            pathType: Prefix
+            backend:
+              service:
+                name: node-service
+                port:
+                  number: 8082

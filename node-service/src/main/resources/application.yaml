@@ -1,0 +1,17 @@
+﻿server:
+  port: 8082
+
+spring:
+  datasource:
+    url: jdbc:postgresql://${DB_HOST:postgres-cluster}:5432/artemi
+    username: ${DB_USER:artemi}
+    password: ${DB_PASS:artemi}
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate.jdbc.time_zone: UTC
+      hibernate.format_sql: true
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
