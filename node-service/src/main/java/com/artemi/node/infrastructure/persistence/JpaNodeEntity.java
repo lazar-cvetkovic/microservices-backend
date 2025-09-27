@@ -3,6 +3,7 @@ package com.artemi.node.infrastructure.persistence;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.math.BigDecimal;
 import java.time.Instant;
 
 @Entity
@@ -16,7 +17,8 @@ public class JpaNodeEntity {
     @Column(name = "node_id")
     private String nodeId;
     private String playerId;
-    private double score;
+    @Column(name = "score", precision = 12, scale = 2)
+    private BigDecimal score;
     private String country;
     private String city;
     private Instant timeWhenUpdated;

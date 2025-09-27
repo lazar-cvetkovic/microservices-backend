@@ -5,6 +5,7 @@ import com.artemi.node.domain.repository.NodeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
+import java.math.BigDecimal;
 import java.util.*;
 import java.time.Instant;
 
@@ -20,7 +21,7 @@ public class NodeRepositoryAdapter implements NodeRepository {
 
     @Override
     public Node save(Node n) {
-        var e = new JpaNodeEntity(n.getNodeId(), n.getPlayerId(), n.getScore(), n.getCountry(),
+        var e = new JpaNodeEntity(n.getNodeId(), n.getPlayerId(), BigDecimal.valueOf(n.getScore()), n.getCountry(),
                 n.getCity(), n.getTimeWhenUpdated());
         return toDomain(jpa.save(e));
     }
@@ -34,7 +35,7 @@ public class NodeRepositoryAdapter implements NodeRepository {
         return Node.builder()
                 .nodeId(e.getNodeId())
                 .playerId(e.getPlayerId())
-                .score(e.getScore())
+                .score(e.getScore() != null ? e.getScore().doubleValue() : 0.0)
                 .country(e.getCountry())
                 .city(e.getCity())
                 .timeWhenUpdated(e.getTimeWhenUpdated() != null ? e.getTimeWhenUpdated() : Instant.now())
